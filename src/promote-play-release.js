@@ -1,5 +1,6 @@
-import { getInput, setFailed, debug, info, warning } from '@actions/core';
+import { getInput, setFailed, exportVariable, debug, info, warning } from '@actions/core';
 import { google } from 'googleapis';
+import { writeFileSync } from 'fs';
 
 export async function run() {
   try {
@@ -8,6 +9,14 @@ export async function run() {
     const rawServiceAccountJson = getInput('service-account-json-raw', { required: true });
     const inAppUpdatePriority = getInput('inapp-update-priority');
     const userFraction = getInput('user-fraction');
+
+    // Write service account JSON to file, then set the proper env variable so auth can find it.
+    debug('Saving service account JSON for temporary use');
+    const serviceAccountFile = "./serviceAccountJson.json";
+    writeFileSync(serviceAccountFile, rawServiceAccountJson, {
+      encoding: 'utf8'
+    });
+    exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
 
     // Authenticate
     debug('Creating auth client');
