@@ -4,7 +4,7 @@
   "description": "Promote the latest open testing release to production on Google Play",
   "main": "dist/index.js",
   "scripts": {
-    "build": "ncc build src/main.js -o dist/"
+    "build": "ncc build src/main.js -m -o dist/"
   },
   "repository": {
     "type": "git",
