@@ -7,8 +7,20 @@ export async function run() {
     // Get inputs
     const packageName = getInput('package-name', { required: true });
     const rawServiceAccountJson = getInput('service-account-json-raw', { required: true });
-    const inAppUpdatePriority = getInput('inapp-update-priority');
-    const userFraction = getInput('user-fraction');
+    const inAppUpdatePriorityInput = getInput('inapp-update-priority');
+    const userFractionInput = getInput('user-fraction');
+    
+    // Convert inputs to the correct types
+    let userFraction;
+    if (userFractionInput) {
+      userFraction = parseFloat(userFractionInput);
+      debug(`Parsed userFraction: ${userFraction}`);
+    }
+    let inAppUpdatePriority
+    if (inAppUpdatePriorityInput) {
+      inAppUpdatePriority = parseInt(inAppUpdatePriorityInput);
+      debug(`Parsed inAppUpdatePriority: ${inAppUpdatePriority}`);
+    }
 
     // Write service account JSON to file, then set the proper env variable so auth can find it.
     debug('Saving service account JSON for temporary use');
