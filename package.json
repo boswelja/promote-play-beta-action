@@ -1,0 +1,30 @@
+{
+  "name": "promote-play-beta-action",
+  "version": "0.1.0",
+  "description": "Promote the latest open testing release to production on Google Play",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "ncc build src/main.js -o dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/boswelja/promote-play-beta-action.git"
+  },
+  "keywords": [
+    "action",
+    "google-play"
+  ],
+  "author": "Jack Boswell (boswelja)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/boswelja/promote-play-beta-action/issues"
+  },
+  "homepage": "https://github.com/boswelja/promote-play-beta-action#readme",
+  "dependencies": {
+    "@actions/core": "^1.2.6",
+    "googleapis": "^67.0.0"
+  },
+  "devDependencies": {
+    "@vercel/ncc": "^0.27.0"
+  }
+}
