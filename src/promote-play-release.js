@@ -3,8 +3,8 @@ import { google } from 'googleapis';
 
 export async function run() {
   // Get inputs
-  const packageName = getInput('package-name', { required });
-  const rawServiceAccountJson = getInput('service-account-json-raw', { required });
+  const packageName = getInput('package-name', { required: true });
+  const rawServiceAccountJson = getInput('service-account-json-raw', { required: true });
   const inAppUpdatePriority = getInput('inapp-update-priority');
   const userFraction = getInput('user-fraction');
 
