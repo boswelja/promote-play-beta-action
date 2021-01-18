@@ -1,6 +1,6 @@
 {
   "name": "promote-play-beta-action",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "Promote the latest open testing release to production on Google Play",
   "main": "dist/index.js",
   "scripts": {
