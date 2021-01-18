@@ -45,21 +45,32 @@ export async function run() {
       auth: authClient
     });
 
+    // Get the current beta track
+    info('Getting current beta info');
+    const betaTrack = await publisher.edits.tracks.get({
+      auth: authClient,
+      packageName: packageName,
+      editId: appEdit.data.id,
+      track: 'beta'
+    });
+    debug('Mapping beta releases to production releases with new data')
+    const betaReleases = betaTrack.data.releases;
+    const prodReleases = betaReleases.map((release) => {
+      release.inAppUpdatePriority = inAppUpdatePriority;
+      release.userFraction = userFraction;
+      return release;
+    });
+
     // Patch beta track to production and apply userFraction and inAppUpdatePriority to the release
     info('Switching beta release to production');
-    const promoteResult = await publisher.edits.tracks.patch({
+    const promoteResult = await publisher.edits.tracks.update({
       auth: authClient,
       editId: appEdit.data.id,
-      track: 'beta',
+      track: 'production',
       packageName: packageName,
       requestBody: {
         track: 'production',
-        releases: [
-          {
-            userFraction: userFraction,
-            inAppUpdatePriority: inAppUpdatePriority
-          }
-        ]
+        releases: prodReleases
       }
     });
 
