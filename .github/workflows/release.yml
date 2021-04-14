@@ -10,13 +10,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2.3.4
-    - name: Read Version
-      uses: nyaayaya/package-version@v1
-      id: node-version
+      with:
+        ref: ${{ github.head_ref }}   # checkout the correct branch name
+        fetch-depth: 0                # fetch the whole repo history
+    - name: Git Version
+      uses: codacy/git-version@2.5.0
+      id: version
+      with:
+        release-branch: main
     - name: Create Release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: "v${{ env.PACKAGE_VERSION }}"
-        release_name: "v${{ env.PACKAGE_VERSION }}"
+        tag_name: ${{ steps.version.outputs.version }}
+        release_name: ${{ steps.version.outputs.version }}
