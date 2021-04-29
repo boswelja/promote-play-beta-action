@@ -25,6 +25,6 @@
     "googleapis": "^72.0.0"
   },
   "devDependencies": {
-    "@vercel/ncc": "^0.28.3"
+    "@vercel/ncc": "^0.28.4"
   }
 }
