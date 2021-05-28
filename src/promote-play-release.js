@@ -1,4 +1,4 @@
-import { getInput, setFailed, exportVariable, debug, info, warning } from '@actions/core';
+import { getInput, setFailed, exportVariable, debug, info } from '@actions/core';
 import { google } from 'googleapis';
 import { writeFileSync } from 'fs';
 
@@ -63,7 +63,7 @@ export async function run() {
 
     // Patch beta track to production and apply userFraction and inAppUpdatePriority to the release
     info('Switching beta release to production');
-    const promoteResult = await publisher.edits.tracks.update({
+    await publisher.edits.tracks.update({
       auth: authClient,
       editId: appEdit.data.id,
       track: 'production',
