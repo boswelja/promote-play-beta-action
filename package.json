@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/boswelja/promote-play-beta-action#readme",
   "dependencies": {
-    "@actions/core": "^1.3.0",
+    "@actions/core": "^1.4.0",
     "googleapis": "^75.0.0"
   },
   "devDependencies": {
