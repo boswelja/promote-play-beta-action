@@ -1,4 +1,4 @@
-name: "Tag & Deploy Action"
+name: "Tag & Deploy"
 
 on:
   workflow_dispatch
