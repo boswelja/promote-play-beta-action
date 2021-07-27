@@ -1,9 +1,7 @@
 name: "Tag & Deploy Action"
 
 on:
-  push:
-    branches:
-      - main
+  workflow_dispatch
 
 jobs:
   release:
