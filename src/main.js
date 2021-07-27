@@ -1,3 +1,8 @@
-import { run } from './promote-play-release';
+import { run, cleanup } from './promote-play-release';
 
-run();
+function main() {
+    run();
+    cleanup();
+}
+
+main();

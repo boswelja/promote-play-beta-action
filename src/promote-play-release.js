@@ -1,6 +1,8 @@
 import { getInput, setFailed, exportVariable, debug, info } from '@actions/core';
 import { google } from 'googleapis';
-import { writeFileSync } from 'fs';
+import { writeFileSync, unlinkSync } from 'fs';
+
+const serviceAccountFile = "./serviceAccountJson.json";
 
 export async function run() {
   try {
@@ -16,7 +18,7 @@ export async function run() {
       userFraction = parseFloat(userFractionInput);
       debug(`Parsed userFraction: ${userFraction}`);
     }
-    let inAppUpdatePriority
+    let inAppUpdatePriority;
     if (inAppUpdatePriorityInput) {
       inAppUpdatePriority = parseInt(inAppUpdatePriorityInput);
       debug(`Parsed inAppUpdatePriority: ${inAppUpdatePriority}`);
@@ -24,7 +26,6 @@ export async function run() {
 
     // Write service account JSON to file, then set the proper env variable so auth can find it.
     debug('Saving service account JSON for temporary use');
-    const serviceAccountFile = "./serviceAccountJson.json";
     writeFileSync(serviceAccountFile, rawServiceAccountJson, {
       encoding: 'utf8'
     });
@@ -92,4 +93,8 @@ export async function run() {
   } catch (error) {
     setFailed(error);
   }
+}
+
+export async function cleanup() {
+  unlinkSync(serviceAccountFile);
 }
