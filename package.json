@@ -22,7 +22,7 @@
   "homepage": "https://github.com/boswelja/promote-play-beta-action#readme",
   "dependencies": {
     "@actions/core": "^1.6.0",
-    "googleapis": "^98.0.0"
+    "googleapis": "^99.0.0"
   },
   "devDependencies": {
     "@vercel/ncc": "^0.33.3"
