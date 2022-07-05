@@ -11,6 +11,8 @@ export async function run() {
     const rawServiceAccountJson = getInput('service-account-json-raw', { required: true });
     const inAppUpdatePriorityInput = getInput('inapp-update-priority');
     const userFractionInput = getInput('user-fraction');
+    const fromTrack = getInput('from-track') ?? 'beta';
+    const toTrack = getInput('to-track') ?? 'production';
     
     // Convert inputs to the correct types
     let userFraction;
@@ -40,19 +42,19 @@ export async function run() {
       auth: authClient
     });
 
-    // Get the current beta track
-    const prodReleases = mapBetaToProduction(authClient, appEdit.data.id, packageName);
+    // Get the current source track, apply userFraction and inAppUpdatePriority to the release
+    const toTrackReleases = mapSourceToTargetTrack(authClient, appEdit.data.id, packageName, fromTrack);
 
-    // Patch beta track to production and apply userFraction and inAppUpdatePriority to the release
-    info('Switching beta release to production');
+    // Patch source track to target
+    info(`Switching ${fromTrack} release to ${toTrack}, fraction ${userFraction} priority ${inAppUpdatePriority}`);
     await publisher.edits.tracks.update({
       auth: authClient,
       editId: appEdit.data.id,
-      track: 'production',
+      track: toTrack,
       packageName: packageName,
       requestBody: {
-        track: 'production',
-        releases: prodReleases
+        track: toTrack,
+        releases: toTrackReleases
       }
     });
 
@@ -70,7 +72,7 @@ export async function run() {
       return;
     }
 
-    info('Successfully promoted release to production');
+    info(`Successfully promoted release to ${toTrack}`);
   } catch (error) {
     setFailed(error);
   }
@@ -96,17 +98,18 @@ async function storeServiceAccountJson(rawJson) {
   exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
 }
 
-async function mapBetaToProduction(authClient, editId, packageName) {
-  info('Getting current beta info');
-  const betaTrack = await publisher.edits.tracks.get({
+async function mapSourceToTargetTrack(authClient, editId, packageName, sourceTrackName) {
+  info(`Getting current ${sourceTrackName} info`);
+  const sourceTrack = await publisher.edits.tracks.get({
     auth: authClient,
     packageName: packageName,
     editId: editId,
-    track: 'beta'
+    track: sourceTrackName
   });
-  debug('Mapping beta releases to production releases with new data')
-  const betaReleases = betaTrack.data.releases;
-  return betaReleases.map((release) => {
+
+  debug(`Mapping ${sourceTrackName} releases to target releases with new data`)
+  const sourceReleases = sourceTrack.data.releases;
+  return sourceReleases.map((release) => {
     release.inAppUpdatePriority = inAppUpdatePriority;
     release.userFraction = userFraction;
     return release;

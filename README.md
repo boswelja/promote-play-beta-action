@@ -18,3 +18,11 @@ In-app update priority of the release. All newly added APKs in the release will 
 ### `user-fraction`
 
 Portion of users who should get the staged version of the app. Accepts values between 0.0 and 1.0 (exclusive-exclusive).
+
+### `from-track`
+
+The source track to promote from. If not supplied, `beta` is used.
+
+### `to-track`
+
+The target track to promote to. If not supplied, `production` is used.
