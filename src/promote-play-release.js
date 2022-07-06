@@ -1,8 +1,8 @@
 import { getInput, setFailed, exportVariable, debug, info } from '@actions/core';
 import { google } from 'googleapis';
-import { writeFileSync, unlinkSync } from 'fs';
+import { writeFileSync, unlinkSync, realpathSync } from 'fs';
 
-const serviceAccountFile = "./serviceAccountJson.json";
+let serviceAccountFile = "./serviceAccountJson.json";
 
 export async function run() {
   try {
@@ -95,6 +95,8 @@ async function storeServiceAccountJson(rawJson) {
   writeFileSync(serviceAccountFile, rawJson, {
     encoding: 'utf8'
   });
+
+  serviceAccountFile = realpathSync(serviceAccountFile);
   exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
 }
 
