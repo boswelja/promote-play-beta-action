@@ -1,5 +1,5 @@
 # promote-play-beta-action
-Promote the latest open testing release to production on Google Play
+Promote the latest open testing release from one track to another on Google Play.
 
 ## Inputs
 
@@ -21,8 +21,8 @@ Portion of users who should get the staged version of the app. Accepts values be
 
 ### `from-track`
 
-The source track to promote from. If not supplied, `beta` is used.
+The source track to promote from. Defaults to beta.
 
 ### `to-track`
 
-The target track to promote to. If not supplied, `production` is used.
+The target track to promote to. Defaults to production.

@@ -19,10 +19,12 @@ inputs:
     description: "Portion of users who should get the staged version of the app. Accepts values between 0.0 and 1.0 (exclusive-exclusive)"
     required: false
   from-track:
-    description: "The source track to promote from. If not supplied, `beta` is used."
+    description: "The source track to promote from. Defaults to beta."
+    default: "beta"
     required: false
   to-track:
-    description: "The target track to promote to. If not supplied, `production` is used."
+    description: "The target track to promote to. Defaults to production."
+    default: "production"
     required: false
 runs:
   using: 'node12'

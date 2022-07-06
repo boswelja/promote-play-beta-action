@@ -11,8 +11,8 @@ export async function run() {
     const rawServiceAccountJson = getInput('service-account-json-raw', { required: true });
     const inAppUpdatePriorityInput = getInput('inapp-update-priority');
     const userFractionInput = getInput('user-fraction');
-    const fromTrack = getInput('from-track') ?? 'beta';
-    const toTrack = getInput('to-track') ?? 'production';
+    const fromTrack = getInput('from-track');
+    const toTrack = getInput('to-track');
     
     // Convert inputs to the correct types
     let userFraction;
