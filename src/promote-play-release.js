@@ -43,7 +43,7 @@ export async function run() {
     });
 
     // Get the current source track, apply userFraction and inAppUpdatePriority to the release
-    const toTrackReleases = mapSourceToTargetTrack(authClient, appEdit.data.id, packageName, fromTrack);
+    const toTrackReleases = mapSourceToTargetTrack(publisher, authClient, appEdit.data.id, packageName, fromTrack);
 
     // Patch source track to target
     info(`Switching ${fromTrack} release to ${toTrack}, fraction ${userFraction} priority ${inAppUpdatePriority}`);
@@ -100,7 +100,7 @@ async function storeServiceAccountJson(rawJson) {
   exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
 }
 
-async function mapSourceToTargetTrack(authClient, editId, packageName, sourceTrackName) {
+async function mapSourceToTargetTrack(publisher, authClient, editId, packageName, sourceTrackName) {
   info(`Getting current ${sourceTrackName} info`);
   const sourceTrack = await publisher.edits.tracks.get({
     auth: authClient,
