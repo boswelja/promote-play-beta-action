@@ -33,7 +33,7 @@ export async function run() {
     const publisher = google.androidpublisher('v3');
 
     // Authenticate
-    const authClient = getAuthClient();
+    const authClient = await getAuthClient();
 
     // Create app edit
     info('Creating a new edit');
