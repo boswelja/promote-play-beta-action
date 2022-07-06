@@ -1,6 +1,6 @@
 import { getInput, setFailed, exportVariable, debug, info } from '@actions/core';
 import { google } from 'googleapis';
-import { writeFileSync, unlinkSync, realpathSync } from 'fs';
+import { unlinkSync, promises as fspromises } from 'fs';
 
 let serviceAccountFile = "./serviceAccountJson.json";
 
@@ -27,7 +27,7 @@ export async function run() {
     }
 
     // Write service account JSON to file, then set the proper env variable so auth can find it.
-    storeServiceAccountJson(rawServiceAccountJson);
+    await storeServiceAccountJson(rawServiceAccountJson);
 
     // Get publisher
     const publisher = google.androidpublisher('v3');
@@ -92,11 +92,11 @@ async function getAuthClient() {
 
 async function storeServiceAccountJson(rawJson) {
   debug('Saving service account JSON for temporary use');
-  writeFileSync(serviceAccountFile, rawJson, {
+  await fspromises.writeFile(serviceAccountFile, rawJson, {
     encoding: 'utf8'
   });
 
-  serviceAccountFile = realpathSync(serviceAccountFile);
+  serviceAccountFile = await fspromises.realpath(serviceAccountFile);
   exportVariable("GOOGLE_APPLICATION_CREDENTIALS", serviceAccountFile);
 }
 
