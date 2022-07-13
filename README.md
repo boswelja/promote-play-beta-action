@@ -1,3 +1,8 @@
+### ⚠️ DEPRECATION NOTICE ⚠️
+### This action is not currently maintained. The suggested replacement is: https://github.com/kevin-david/promote-play-release
+
+<hr /> 
+
 # promote-play-beta-action
 Promote the latest open testing release to production on Google Play
 
